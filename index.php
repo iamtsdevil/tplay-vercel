@@ -83,6 +83,75 @@ header("Cache-Control: max-age=20, public");
 header('Content-Disposition: attachment; filename="TsDevil_' . urlencode($id) . '.mpd"');
 echo $processedManifest;
 
+function extractKid($hexContent) {
+    $psshMarker = "70737368";
+    $psshOffset = strpos($hexContent, $psshMarker);
+    
+    if ($psshOffset !== false) {
+        $headerSizeHex = substr($hexContent, $psshOffset - 8, 8);
+        $headerSize = hexdec($headerSizeHex);
+        $psshHex = substr($hexContent, $psshOffset - 8, $headerSize * 2);
+        $kidHex = substr($psshHex, 68, 32);
+        $newPsshHex = "000000327073736800000000edef8ba979d64acea3c827dcd51d21ed000000121210" . $kidHex;
+        $pssh = base64_encode(hex2bin($newPsshHex));
+        $kid = substr($kidHex, 0, 8) . "-" . substr($kidHex, 8, 4) . "-" . substr($kidHex, 12, 4) . "-" . substr($kidHex, 16, 4) . "-" . substr($kidHex, 20);
+        
+        return ['pssh' => $pssh, 'kid' => $kid];
+    }
+    
+    return null;
+}
+function extractPsshFromManifest(string $content, string $baseUrl, string $userAgent, ?int $beginTimestamp, string $hmac): ?array {
+    if (($xml = @simplexml_load_string($content)) === false) return null;
+
+    foreach ($xml->Period->AdaptationSet as $set) {
+        if ((string)$set['contentType'] === 'audio') {
+            foreach ($set->Representation as $rep) {
+                $template = $rep->SegmentTemplate ?? null;
+                if ($template) {
+                    $startNumber = $beginTimestamp
+                        ? (int)($template['startNumber'] ?? 0)
+                        : (int)($template['startNumber'] ?? 0) + (int)($template->SegmentTimeline->S['r'] ?? 0);
+                    
+                    $media = str_replace(
+                        ['$RepresentationID$', '$Number$'], 
+                        [(string)$rep['id'], $startNumber], 
+                        $template['media']
+                    );
+                    $trueUrl = "$baseUrl/dash/$media?" . $hmac;
+
+                    $headers = [
+                        "User-Agent: $userAgent",
+                        //'Accept-Encoding: gzip',
+                        'Origin: https://watch.tataplay.com',
+                        'Referer: https://watch.tataplay.com/',
+                    ];
+
+                    // Create a stream context
+                    $context = stream_context_create([
+                        'http' => [
+                            'method' => 'GET',
+                            'header' => implode("\r\n", $headers),
+                            'follow_location' => 1,
+                        ]
+                    ]);
+
+                    // Fetch the content
+                    $content = @file_get_contents($trueUrl, false, $context);
+
+                    if ($content !== false) {
+                        $hexContent = bin2hex($content);
+                        return extractKid($hexContent);
+                    }
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
+
 function fetchMPDManifest(string $url, string $userAgent, string $hmac): ?string {
     $trueUrl = $url . '?' . $hmac;
 
@@ -94,7 +163,7 @@ function fetchMPDManifest(string $url, string $userAgent, string $hmac): ?string
     ];
     $context = stream_context_create($contextOptions);
     $content = @file_get_contents($trueUrl, false, $context);
-    echo $content;
+    //echo $content;
     return $content !== false ? $content : null;
 }
 ?>
