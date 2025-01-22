@@ -163,7 +163,7 @@ function fetchMPDManifest(string $url, string $userAgent, string $hmac): ?string
     ];
     $context = stream_context_create($contextOptions);
     $content = @file_get_contents($trueUrl, false, $context);
-    //echo $content;
+    echo $content;
     return $content !== false ? $content : null;
 }
 ?>
