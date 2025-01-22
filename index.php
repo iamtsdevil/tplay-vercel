@@ -163,7 +163,6 @@ $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyA
 
 if (strpos($manifestContent, '<TITLE>Access Denied</TITLE>') !== false && strpos($manifestContent, '<H1>Access Denied</H1>') !== false) {
     updateHmac($id);
-    sleep(3);
     $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
 }
 
