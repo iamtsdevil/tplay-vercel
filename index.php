@@ -20,7 +20,7 @@ $beginTimestamp = isset($_GET['utc']) ? intval($_GET['utc']) : null;
 $endTimestamp = isset($_GET['lutc']) ? intval($_GET['lutc']) : null;
 $begin = $beginTimestamp ? date('Ymd\THis', $beginTimestamp) : 'unknown';
 $end = $endTimestamp ? date('Ymd\THis', $endTimestamp) : 'unknown';
-//$id = $_GET['id'] ?? exit;
+$id = $_GET['id'] ?? exit;
 $dashUrl = secure_values('decrypt', urldecode($_GET['turl']));
 $hmac = secure_values('decrypt', urldecode($_GET['auth']));
 
