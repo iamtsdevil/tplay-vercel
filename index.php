@@ -13,8 +13,8 @@
 // ini_set('display_errors', 0);
 
 $userAgent = 'DevilBhai/5.0 AppleWebKit/534.46.0';
-$proxy = '103.172.84.252:49155';
-$proxyAuth = 'premi:pQA2G23yU6';
+$proxy = "tcp://103.172.84.252:49155";
+$proxyAuth = base64_encode("premi:pQA2G23yU6");
 
 $beginTimestamp = isset($_GET['utc']) ? intval($_GET['utc']) : null;
 $endTimestamp = isset($_GET['lutc']) ? intval($_GET['lutc']) : null;
@@ -29,11 +29,10 @@ function createStreamContext($headers, $proxy, $proxyAuth) {
     return stream_context_create([
         'http' => [
             'method' => 'GET',
-            'header' => implode("\r\n", $headers),
+            'header' => implode("\r\n", array_merge($headers, ["Proxy-Authorization: Basic $proxyAuth"])),
             'proxy' => $proxy,
             'ignore_errors' => true,
-            'request_fulluri' => true,
-            'header' => "Proxy-Authorization: Basic " . base64_encode($proxyAuth) . "\r\n"
+            'request_fulluri' => true
         ]
     ]);
 }
