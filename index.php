@@ -21,9 +21,31 @@ $endTimestamp = isset($_GET['lutc']) ? intval($_GET['lutc']) : null;
 $begin = $beginTimestamp ? date('Ymd\THis', $beginTimestamp) : 'unknown';
 $end = $endTimestamp ? date('Ymd\THis', $endTimestamp) : 'unknown';
 //$id = $_GET['id'] ?? exit;
+$dashUrl = secure_values('decrypt', urldecode($_GET['turl']));
+$hmac = secure_values('decrypt', urldecode($_GET['auth']));
 
-$dashUrl = 'https://bpaicatchupta7.akamaized.net/bpk-tv/irdeto_com_Channel_257/output/master.mpd';
-$hmac = 'hdntl=exp=1737642082~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=d316048942322a32e93b41b644efeec30ad11ce31df45f63aae5dda79e031864';
+//$dashUrl = 'https://bpaicatchupta7.akamaized.net/bpk-tv/irdeto_com_Channel_257/output/master.mpd';
+//$hmac = 'hdntl=exp=1737642082~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=d316048942322a32e93b41b644efeec30ad11ce31df45f63aae5dda79e031864';
+
+function secure_values($action, $data) {
+    $protec = "";
+    $method = 'AES-128-CBC';
+    $ky = 'iamtsdevil';
+    $iv = substr(sha1($ky.'coolapps'."24662b4f995b7b3d348211c94fdaa080"), 0, 16);
+    
+    if ($action == "encrypt") {
+        $encrypted = openssl_encrypt($data, $method, $ky, OPENSSL_RAW_DATA, $iv);
+        if (!empty($encrypted)) {
+            $protec = bin2hex($encrypted);
+        }
+    } else {
+        $decrypted = openssl_decrypt(hex2bin($data), $method, $ky, OPENSSL_RAW_DATA, $iv);
+        if (!empty($decrypted)) {
+            $protec = $decrypted;
+        }
+    }
+    return $protec;
+}
 
 function createStreamContext($headers, $proxy, $proxyAuth) {
     return stream_context_create([
