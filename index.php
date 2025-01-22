@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/dash+xml');
 header("Cache-Control: max-age=20, public");
-header('Content-Disposition: attachment; filename="TsDevil_' . urlencode($id) . '.mpd"');
+header('Content-Disposition: attachment; filename="TsDevil_.mpd"');
 // error_reporting(0);
 // ini_set('display_errors', 0);
 
