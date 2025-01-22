@@ -1,6 +1,6 @@
 <?php
-//error_reporting(0);
-//ini_set('display_errors', 0);
+error_reporting(0);
+ini_set('display_errors', 0);
 $userAgent = 'DevilBhai/5.0 AppleWebKit/534.46.0';
 $beginTimestamp = isset($_GET['utc']) ? intval($_GET['utc']) : null;
 $endTimestamp = isset($_GET['lutc']) ? intval($_GET['lutc']) : null;
@@ -71,16 +71,16 @@ if (in_array($id, ['244', '599'])) {
     $processedManifest = preg_replace('/<Representation id="video=3187600" bandwidth="3187600".*?<\/Representation>/s', '', $processedManifest);
 }
 
-header('Content-Security-Policy: default-src \'self\';');
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header('Content-Type: application/dash+xml');
-header("Cache-Control: max-age=20, public");
-header('Content-Disposition: attachment; filename="TsDevil_' . urlencode($id) . '.mpd"');
+// header('Content-Security-Policy: default-src \'self\';');
+// header('X-Content-Type-Options: nosniff');
+// header('X-Frame-Options: DENY');
+// header('X-XSS-Protection: 1; mode=block');
+// header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// header("Access-Control-Allow-Headers: Content-Type, Authorization");
+// header('Content-Type: application/dash+xml');
+// header("Cache-Control: max-age=20, public");
+// header('Content-Disposition: attachment; filename="TsDevil_' . urlencode($id) . '.mpd"');
 echo $processedManifest;
 
 function extractKid($hexContent) {
