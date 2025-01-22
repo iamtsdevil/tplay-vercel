@@ -72,7 +72,7 @@ function fetchMPDManifest(string $url, string $userAgent, string $hmac, $proxy, 
 
     $context = createStreamContext($headers, $proxy, $proxyAuth);
     $content = @file_get_contents($trueUrl, false, $context);
-    echo $content;
+    //echo $content;
     return $content !== false ? $content : null;
 }
 
