@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.php",
+      "use": "vercel-php"
+    }
+  ],
+  "routes": [
+  {
+    "src": "/(.*)\\.mpd",
+    "dest": "/index.php?id=$1"
+  },
+  {
+    "src": "/(.*)\\.key",
+    "dest": "/index.php?keyid=$1"
+  }
+],
+  "regions": ["bom1"]
+}
