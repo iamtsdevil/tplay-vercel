@@ -36,6 +36,7 @@ if ($beginTimestamp) {
 }
 
 $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac) ?? exit;
+echo $manifestContent;
 
 if (strpos($manifestContent, '<TITLE>Access Denied</TITLE>') !== false && strpos($manifestContent, '<H1>Access Denied</H1>') !== false) {
     updateHmac($id);
