@@ -1,14 +1,14 @@
 <?php
-header('Content-Security-Policy: default-src \'self\';');
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header('Content-Type: application/dash+xml');
-header("Cache-Control: max-age=20, public");
-header('Content-Disposition: attachment; filename="TsDevil_.mpd"');
+// header('Content-Security-Policy: default-src \'self\';');
+// header('X-Content-Type-Options: nosniff');
+// header('X-Frame-Options: DENY');
+// header('X-XSS-Protection: 1; mode=block');
+// header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// header("Access-Control-Allow-Headers: Content-Type, Authorization");
+// header('Content-Type: application/dash+xml');
+// header("Cache-Control: max-age=20, public");
+//header('Content-Disposition: attachment; filename="TsDevil_.mpd"');
 // error_reporting(0);
 // ini_set('display_errors', 0);
 
@@ -23,7 +23,7 @@ $end = $endTimestamp ? date('Ymd\THis', $endTimestamp) : 'unknown';
 //$id = $_GET['id'] ?? exit;
 
 $dashUrl = 'https://bpaicatchupta7.akamaized.net/bpk-tv/irdeto_com_Channel_257/output/master.mpd';
-$hmac = 'hdntl=exp=1737555655~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=73c35ce53874f9979bb016c3d74d39681f5220597ad10048af87f1dc3c9feef0';
+$hmac = 'hdntl=exp=1737642082~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=d316048942322a32e93b41b644efeec30ad11ce31df45f63aae5dda79e031864';
 
 function createStreamContext($headers, $proxy, $proxyAuth) {
     return stream_context_create([
