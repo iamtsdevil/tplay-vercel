@@ -1,14 +1,14 @@
 <?php
-// header('Content-Security-Policy: default-src \'self\';');
-// header('X-Content-Type-Options: nosniff');
-// header('X-Frame-Options: DENY');
-// header('X-XSS-Protection: 1; mode=block');
-// header("Access-Control-Allow-Origin: *");
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-// header("Access-Control-Allow-Headers: Content-Type, Authorization");
-// header('Content-Type: application/dash+xml');
-// header("Cache-Control: max-age=20, public");
-//header('Content-Disposition: attachment; filename="TsDevil_.mpd"');
+header('Content-Security-Policy: default-src \'self\';');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 1; mode=block');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header('Content-Type: application/dash+xml');
+header("Cache-Control: max-age=20, public");
+header('Content-Disposition: attachment; filename="TsDevil_.mpd"');
 // error_reporting(0);
 // ini_set('display_errors', 0);
 
