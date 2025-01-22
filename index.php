@@ -13,7 +13,7 @@
 // ini_set('display_errors', 0);
 
 $userAgent = 'DevilBhai/5.0 AppleWebKit/534.46.0';
-$proxy = 'http://103.172.84.252:49155';
+$proxy = '103.172.84.252:49155';
 $proxyAuth = 'premi:pQA2G23yU6';
 
 $beginTimestamp = isset($_GET['utc']) ? intval($_GET['utc']) : null;
