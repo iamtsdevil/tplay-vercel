@@ -9,8 +9,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/dash+xml');
 header("Cache-Control: max-age=20, public");
 header('Content-Disposition: attachment; filename="TsDevil_' . urlencode($id) . '.mpd"');
-error_reporting(0);
-ini_set('display_errors', 0);
+// error_reporting(0);
+// ini_set('display_errors', 0);
 
 $userAgent = 'DevilBhai/5.0 AppleWebKit/534.46.0';
 $proxy = 'tcp://103.172.84.252:49155';
@@ -20,7 +20,7 @@ $beginTimestamp = isset($_GET['utc']) ? intval($_GET['utc']) : null;
 $endTimestamp = isset($_GET['lutc']) ? intval($_GET['lutc']) : null;
 $begin = $beginTimestamp ? date('Ymd\THis', $beginTimestamp) : 'unknown';
 $end = $endTimestamp ? date('Ymd\THis', $endTimestamp) : 'unknown';
-$id = $_GET['id'] ?? exit;
+//$id = $_GET['id'] ?? exit;
 
 $dashUrl = 'https://bpaicatchupta7.akamaized.net/bpk-tv/irdeto_com_Channel_257/output/master.mpd';
 $hmac = 'hdntl=exp=1737555655~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=73c35ce53874f9979bb016c3d74d39681f5220597ad10048af87f1dc3c9feef0';
@@ -31,6 +31,7 @@ function createStreamContext($headers, $proxy, $proxyAuth) {
             'method' => 'GET',
             'header' => implode("\r\n", $headers),
             'proxy' => $proxy,
+            'ignore_errors' => true,
             'request_fulluri' => true,
             'header' => "Proxy-Authorization: Basic " . base64_encode($proxyAuth) . "\r\n"
         ]
@@ -48,7 +49,7 @@ function fetchMPDManifest(string $url, string $userAgent, string $hmac, $proxy, 
 
     $context = createStreamContext($headers, $proxy, $proxyAuth);
     $content = @file_get_contents($trueUrl, false, $context);
-
+    echo $content;
     return $content !== false ? $content : null;
 }
 
@@ -74,7 +75,7 @@ function extractPsshFromManifest(string $content, string $baseUrl, string $userA
                     $headers = [
                         "User-Agent: $userAgent",
                         'Origin: https://watch.tataplay.com',
-                        'Referer: https://watch.tataplay.com/'
+                        'Referer: https://watch.tataplay.com/',
                     ];
 
                     $context = createStreamContext($headers, $proxy, $proxyAuth);
