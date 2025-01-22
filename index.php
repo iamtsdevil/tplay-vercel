@@ -158,7 +158,7 @@ $processedManifest = str_replace('dash/', "$baseUrl/dash/", $manifestContent);
 
 if ($widevinePssh) {
     $staticReplacements = [
-        '<!-- Created with Broadpeak BkS350 Origin Packager  (version=1.12.8-28913) -->' => '<!-- Created with love by TsDevil  (version=1.0) -->',
+        '<!-- Created with Broadpeak BkS350 Origin Packager  (version=1.12.8-28913) -->' => '<!-- Created by TsDevil  (version=2.0) -->',
         '<ContentProtection value="cenc" schemeIdUri="urn:mpeg:dash:mp4protection:2011"/>' => '<!-- Common Encryption -->
           <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="' . $widevinePssh['kid'] . '">
           </ContentProtection>',
