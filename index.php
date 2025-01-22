@@ -29,6 +29,19 @@ $hmac = secure_values('decrypt', urldecode($_GET['auth']));
 //$dashUrl = 'https://bpaicatchupta7.akamaized.net/bpk-tv/irdeto_com_Channel_257/output/master.mpd';
 //$hmac = 'hdntl=exp=1737642082~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=d316048942322a32e93b41b644efeec30ad11ce31df45f63aae5dda79e031864';
 
+function updateHmac($id) {
+    $trueUrl = 'https://tsdevil.fun/Devil2_0/tplay-api/channel-wise-hmac.php?id=' . $id;
+
+    $contextOptions = [
+        'http' => [
+            'method' => 'GET',
+            'header' => "User-Agent: DevilBhai/5.0 AppleWebKit/534.46.0\r\n"
+        ]
+    ];
+    $context = stream_context_create($contextOptions);
+    file_get_contents($trueUrl, false, $context);
+}
+
 function secure_values($action, $data) {
     $protec = "";
     $method = 'AES-128-CBC';
@@ -149,6 +162,8 @@ if ($beginTimestamp) {
 $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
 
 if (strpos($manifestContent, '<TITLE>Access Denied</TITLE>') !== false && strpos($manifestContent, '<H1>Access Denied</H1>') !== false) {
+    updateHmac($id);
+    sleep(3);
     $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
 }
 
