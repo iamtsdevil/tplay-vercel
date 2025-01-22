@@ -24,8 +24,8 @@ $end = $endTimestamp ? date('Ymd\THis', $endTimestamp) : 'unknown';
 $dashUrl = secure_values('decrypt', urldecode($_GET['turl']));
 $hmac = secure_values('decrypt', urldecode($_GET['auth']));
 
-echo $dashUrl;
-echo $hmac;
+//echo $dashUrl;
+//echo $hmac;
 //$dashUrl = 'https://bpaicatchupta7.akamaized.net/bpk-tv/irdeto_com_Channel_257/output/master.mpd';
 //$hmac = 'hdntl=exp=1737642082~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=d316048942322a32e93b41b644efeec30ad11ce31df45f63aae5dda79e031864';
 
@@ -135,41 +135,41 @@ function extractKid($hexContent) {
     return null;
 }
 
-// if (strpos($dashUrl, 'https://bpaicatchup') !== 0) {
-//     header("Location: $dashUrl");
-//     exit;
-// }
+if (strpos($dashUrl, 'https://bpaicatchup') !== 0) {
+    header("Location: $dashUrl");
+    exit;
+}
 
-// $dashUrl = str_replace('bpaicatchupta', 'bpwcatchupta', $dashUrl);
-// if ($beginTimestamp) {
-//     $dashUrl = str_replace('master', 'manifest', $dashUrl);
-//     $dashUrl .= "?begin=$begin&end=$end";
-// }
+$dashUrl = str_replace('bpaicatchupta', 'bpwcatchupta', $dashUrl);
+if ($beginTimestamp) {
+    $dashUrl = str_replace('master', 'manifest', $dashUrl);
+    $dashUrl .= "?begin=$begin&end=$end";
+}
 
-// $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
+$manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
 
-// if (strpos($manifestContent, '<TITLE>Access Denied</TITLE>') !== false && strpos($manifestContent, '<H1>Access Denied</H1>') !== false) {
-//     $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
-// }
+if (strpos($manifestContent, '<TITLE>Access Denied</TITLE>') !== false && strpos($manifestContent, '<H1>Access Denied</H1>') !== false) {
+    $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
+}
 
-// $baseUrl = dirname($dashUrl);
-// $widevinePssh = extractPsshFromManifest($manifestContent, $baseUrl, $userAgent, $beginTimestamp, $hmac, $proxy, $proxyAuth);
-// $processedManifest = str_replace('dash/', "$baseUrl/dash/", $manifestContent);
+$baseUrl = dirname($dashUrl);
+$widevinePssh = extractPsshFromManifest($manifestContent, $baseUrl, $userAgent, $beginTimestamp, $hmac, $proxy, $proxyAuth);
+$processedManifest = str_replace('dash/', "$baseUrl/dash/", $manifestContent);
 
-// if ($widevinePssh) {
-//     $staticReplacements = [
-//         '<!-- Created with Broadpeak BkS350 Origin Packager  (version=1.12.8-28913) -->' => '<!-- Created with love by TsDevil  (version=1.0) -->',
-//         '<ContentProtection value="cenc" schemeIdUri="urn:mpeg:dash:mp4protection:2011"/>' => '<!-- Common Encryption -->
-//           <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="' . $widevinePssh['kid'] . '">
-//           </ContentProtection>',
-//         '<ContentProtection schemeIdUri="urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" value="Widevine"/>' => '<!-- Widevine -->
-//           <ContentProtection schemeIdUri="urn:uuid:EDEF8BA9-79D6-4ACE-A3C8-27DCD51D21ED">
-//             <cenc:pssh>' . $widevinePssh['pssh'] . '</cenc:pssh>
-//           </ContentProtection>',
-//     ];
-//     $processedManifest = str_replace(array_keys($staticReplacements), array_values($staticReplacements), $processedManifest);
-//     $processedManifest = strtr($processedManifest, ['.dash' => '.dash?' . $hmac, '.m4s' => '.m4s?' . $hmac]);
-// }
+if ($widevinePssh) {
+    $staticReplacements = [
+        '<!-- Created with Broadpeak BkS350 Origin Packager  (version=1.12.8-28913) -->' => '<!-- Created with love by TsDevil  (version=1.0) -->',
+        '<ContentProtection value="cenc" schemeIdUri="urn:mpeg:dash:mp4protection:2011"/>' => '<!-- Common Encryption -->
+          <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="' . $widevinePssh['kid'] . '">
+          </ContentProtection>',
+        '<ContentProtection schemeIdUri="urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" value="Widevine"/>' => '<!-- Widevine -->
+          <ContentProtection schemeIdUri="urn:uuid:EDEF8BA9-79D6-4ACE-A3C8-27DCD51D21ED">
+            <cenc:pssh>' . $widevinePssh['pssh'] . '</cenc:pssh>
+          </ContentProtection>',
+    ];
+    $processedManifest = str_replace(array_keys($staticReplacements), array_values($staticReplacements), $processedManifest);
+    $processedManifest = strtr($processedManifest, ['.dash' => '.dash?' . $hmac, '.m4s' => '.m4s?' . $hmac]);
+}
 
-// echo $processedManifest;
+echo $processedManifest;
 ?>
