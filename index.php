@@ -148,16 +148,16 @@ function extractKid($hexContent) {
     return null;
 }
 
-if (strpos($dashUrl, 'https://bpaicatchup') !== 0) {
+if (strpos($dashUrl, 'https://bpwta') !== 0) {
     header("Location: $dashUrl");
     exit;
 }
 
-$dashUrl = str_replace('bpaicatchupta', 'bpwcatchupta', $dashUrl);
-if ($beginTimestamp) {
-    $dashUrl = str_replace('master', 'manifest', $dashUrl);
-    $dashUrl .= "?begin=$begin&end=$end";
-}
+// $dashUrl = str_replace('bpaicatchupta', 'bpwcatchupta', $dashUrl);
+// if ($beginTimestamp) {
+//     $dashUrl = str_replace('master', 'manifest', $dashUrl);
+//     $dashUrl .= "?begin=$begin&end=$end";
+// }
 
 $manifestContent = fetchMPDManifest($dashUrl, $userAgent, $hmac, $proxy, $proxyAuth) ?? exit;
 
