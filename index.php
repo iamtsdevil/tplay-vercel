@@ -30,7 +30,7 @@ $hmac = secure_values('decrypt', urldecode($_GET['auth']));
 //$hmac = 'hdntl=exp=1737642082~acl=%2fbpk-tv%2firdeto_com_Channel_257%2foutput%2f*~id=1076415189~data=hdntl~hmac=d316048942322a32e93b41b644efeec30ad11ce31df45f63aae5dda79e031864';
 
 function updateHmac($id) {
-    $trueUrl = 'https://tsdevil.fun/Devil2_0/tplay-api/channel-wise-hmac.php?id=' . $id;
+    $trueUrl = 'https://tsdevil.fun/Devilbhai/tplay-api/channel-wise-hmac.php?id=' . $id;
 
     $contextOptions = [
         'http' => [
